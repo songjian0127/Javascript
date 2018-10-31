@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Play Snake</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    <canvas id="myCanvas" width="500" height="500" style="border:1px solid #000000;"></canvas>
+</body>
+
+<script>
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext('2d');
+    var canvasWidth = canvas.clientWidth;
+    var canvasHeight = canvas.clientHeight;
+    var xf = Math.floor(Math.random() * canvasWidth);
+    var yf = Math.floor(Math.random() * canvasHeight);
+    function foodCreate(xf,yf,canvasWidth,canvasHeight){
+        ctx.fillStyle = '#FF0000';        
+        if (xf<=(canvasWidth-10) && yf<=(canvasHeight-10)){
+            ctx.fillRect(xf,yf,10,10);
+        }
+            else{
+            ctx.fillRect(canvasWidth-10,canvasHeight-10,10,10);
+            
+        }
+    };
+    myFood = new foodCreate(xf,yf,canvasWidth,canvasHeight);
+    console.log(myFood);
+    
+    // function snakeCreate(){
+    //     ctx.fillStyle = '#00FF00';
+    //     return ctx.fillRect()
+
+    // };
+
+</script>
+</html>
