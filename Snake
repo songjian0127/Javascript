@@ -17,26 +17,94 @@
     var ctx = canvas.getContext('2d');
     var canvasWidth = canvas.clientWidth;
     var canvasHeight = canvas.clientHeight;
-    var xf = Math.floor(Math.random() * canvasWidth);
-    var yf = Math.floor(Math.random() * canvasHeight);
-    function foodCreate(xf,yf,canvasWidth,canvasHeight){
+    var snakeSize = 10;
+    var xf,yf,xs,ys;
+    //Create food block
+    function foodCreate(canvasWidth,canvasHeight,snakeSize){
+        //Define random coordinates of food block
+        xf = Math.floor(Math.random() * canvasWidth);
+        yf = Math.floor(Math.random() * canvasHeight);
         ctx.fillStyle = '#FF0000';        
-        if (xf<=(canvasWidth-10) && yf<=(canvasHeight-10)){
-            ctx.fillRect(xf,yf,10,10);
+        if (xf<=(canvasWidth - snakeSize) && xf >= 0 && yf<=(canvasHeight - snakeSize) && yf >= 0){
+            ctx.fillRect(xf,yf,snakeSize,snakeSize);
         }
             else{
-            ctx.fillRect(canvasWidth-10,canvasHeight-10,10,10);
+            ctx.fillRect(canvasWidth - snakeSize,canvasHeight - snakeSize,snakeSize,snakeSize);
             
         }
+        xs = xf;
+        ys = yf;
+        
     };
-    myFood = new foodCreate(xf,yf,canvasWidth,canvasHeight);
-    console.log(myFood);
-    
-    // function snakeCreate(){
-    //     ctx.fillStyle = '#00FF00';
-    //     return ctx.fillRect()
+    myFood = new foodCreate(canvasWidth,canvasHeight,snakeSize); 
+    console.log("xf = " + xf + ", " + "yf = " + yf + ", " + "xs = " + xs + ", " + "ys = " + ys);
 
-    // };
+    //Create snake head
+    function snakeCreate(xs,ys,canvasWidth,canvasHeight,snakeSize){
+        //Avoid snake head collide with food block
+        while (xs > xf - snakeSize && xs < xf + snakeSize && ys > yf - snakeSize && ys < yf + snakeSize){
+            //Define random coordinates of snake head
+            if (xs<=(canvasWidth - snakeSize) && xs >= 0 && ys<=(canvasHeight - snakeSize) && ys >= 0){
+                xs = Math.floor(Math.random() * canvasWidth);
+                ys = Math.floor(Math.random() * canvasHeight);
+                //Create head entity
+                ctx.fillStyle = '#00FF00';        
+                ctx.fillRect(xs,ys,snakeSize - 1,snakeSize - 1);
+                //Create head border
+                ctx.fillStyle = "#000000";
+                ctx.strokeRect(xs,ys,snakeSize,snakeSize);
+            }
+                else{
+                xs = Math.floor(Math.random() * canvasWidth);
+                ys = Math.floor(Math.random() * canvasHeight);
+                //Create head entity
+                ctx.fillStyle = '#00FF00';        
+                ctx.fillRect(xs,ys,snakeSize - 1,snakeSize - 1);
+                //Create head border
+                ctx.fillStyle = "#000000";
+                ctx.strokeRect(xs,ys,snakeSize,snakeSize);
+            
+            }
+            
+        }
+
+    };
+    mySnake = new snakeCreate(xs,ys,canvasWidth,canvasHeight,snakeSize);
+    console.log(xs + " " + ys);
+    document.addEventListener('keydown', function(event) {
+    if (event.code == "ArrowLeft") {
+    xs = xs - 10;
+    ctx.fillStyle = '#00FF00';
+    ctx.fillRect(xs,ys,snakeSize - 1,snakeSize - 1);
+    //Create head border
+    ctx.fillStyle = "#000000";
+    ctx.strokeRect(xs,ys,snakeSize,snakeSize);
+  }
+    if (event.code == "ArrowRight") {
+    xs = xs + 10;
+    ctx.fillStyle = '#00FF00';
+    ctx.fillRect(xs,ys,snakeSize - 1,snakeSize - 1);
+    //Create head border
+    ctx.fillStyle = "#000000";
+    ctx.strokeRect(xs,ys,snakeSize,snakeSize);
+  }
+    if (event.code == "ArrowDown") {
+    ys = ys + 10;
+    ctx.fillStyle = '#00FF00';
+    ctx.fillRect(xs,ys,snakeSize - 1,snakeSize - 1);
+    //Create head border
+    ctx.fillStyle = "#000000";
+    ctx.strokeRect(xs,ys,snakeSize,snakeSize);
+  }
+    if (event.code == "ArrowUp") {
+    ys = ys - 10;
+    ctx.fillStyle = '#00FF00';
+    ctx.fillRect(xs,ys,snakeSize - 1,snakeSize - 1);
+    //Create head border
+    ctx.fillStyle = "#000000";
+    ctx.strokeRect(xs,ys,snakeSize,snakeSize);
+  }
+});
 
 </script>
 </html>
