@@ -5,51 +5,59 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Play Snake</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
+    <!--<link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>-->
 </head>
 <body>
+    <!--Canvas width and height must be equal and are 10's multiplier-->
     <canvas id="myCanvas" width="500" height="500" style="border:1px solid #000000;"></canvas>
 </body>
 
 <script>
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext('2d');
-    var canvasWidth = canvas.clientWidth;
+    //Canvas width and height must be 10's multiplier
+    var canvasWidth = canvas.clientWidth; 
     var canvasHeight = canvas.clientHeight;
-    var snakeSize = 10;
+    var snakeSize = 10; //Snake size must be 10's multiplier
     var xf,yf,xs,ys;
+
+    myFood = new foodCreate(); 
+    mySnake = new snakeCreate();
+    document.addEventListener("load", snakeGo);
+    document.addEventListener('keydown', snakeMove);
+    function snakeGo(){
+        
+    };
+
+
     //Create food block
-    function foodCreate(canvasWidth,canvasHeight,snakeSize){
-        //Define random coordinates of food block
-        xf = Math.floor(Math.random() * canvasWidth);
-        yf = Math.floor(Math.random() * canvasHeight);
+    function foodCreate(){
+        //Define random coordinates of food block, coordinates are 10's multiplier
+        xf = (Math.floor(Math.random() * (canvasWidth/snakeSize)))*snakeSize;
+        yf = (Math.floor(Math.random() * (canvasHeight/snakeSize)))*snakeSize;
         ctx.fillStyle = '#FF0000';        
+        //Create a rectangle within the Canvas borders
         if (xf<=(canvasWidth - snakeSize) && xf >= 0 && yf<=(canvasHeight - snakeSize) && yf >= 0){
             ctx.fillRect(xf,yf,snakeSize,snakeSize);
         }
             else{
             ctx.fillRect(canvasWidth - snakeSize,canvasHeight - snakeSize,snakeSize,snakeSize);
-            
         }
         xs = xf;
         ys = yf;
-        
     };
-    myFood = new foodCreate(canvasWidth,canvasHeight,snakeSize); 
-    console.log("xf = " + xf + ", " + "yf = " + yf + ", " + "xs = " + xs + ", " + "ys = " + ys);
-
     //Create snake head
-    function snakeCreate(xs,ys,canvasWidth,canvasHeight,snakeSize){
+    function snakeCreate(){
         //Avoid snake head collide with food block
         while (xs > xf - snakeSize && xs < xf + snakeSize && ys > yf - snakeSize && ys < yf + snakeSize){
-            //Define random coordinates of snake head
+            //Define random coordinates of snake head, coordinates are 10's multiplier
             if (xs<=(canvasWidth - snakeSize) && xs >= 0 && ys<=(canvasHeight - snakeSize) && ys >= 0){
-                xs = Math.floor(Math.random() * canvasWidth);
-                ys = Math.floor(Math.random() * canvasHeight);
+                xs = (Math.floor(Math.random() * (canvasWidth/snakeSize)))*snakeSize;
+                ys = (Math.floor(Math.random() * (canvasHeight/snakeSize)))*snakeSize;
                 //Create head entity
                 ctx.fillStyle = '#00FF00';        
-                ctx.fillRect(xs,ys,snakeSize - 1,snakeSize - 1);
+                ctx.fillRect(xs,ys,snakeSize - (snakeSize/10),snakeSize - (snakeSize/10));
                 //Create head border
                 ctx.fillStyle = "#000000";
                 ctx.strokeRect(xs,ys,snakeSize,snakeSize);
@@ -59,52 +67,40 @@
                 ys = Math.floor(Math.random() * canvasHeight);
                 //Create head entity
                 ctx.fillStyle = '#00FF00';        
-                ctx.fillRect(xs,ys,snakeSize - 1,snakeSize - 1);
+                ctx.fillRect(xs,ys,snakeSize - (snakeSize/10),snakeSize - (snakeSize/10));
                 //Create head border
                 ctx.fillStyle = "#000000";
-                ctx.strokeRect(xs,ys,snakeSize,snakeSize);
-            
+                ctx.strokeRect(xs,ys,snakeSize,snakeSize);            
             }
-            
         }
-
     };
-    mySnake = new snakeCreate(xs,ys,canvasWidth,canvasHeight,snakeSize);
-    console.log(xs + " " + ys);
-    document.addEventListener('keydown', function(event) {
-    if (event.code == "ArrowLeft") {
-    xs = xs - 10;
+    //Create snake tail
+function snakeAdd(){
     ctx.fillStyle = '#00FF00';
-    ctx.fillRect(xs,ys,snakeSize - 1,snakeSize - 1);
+    ctx.fillRect(xs,ys,snakeSize - (snakeSize/10),snakeSize - (snakeSize/10));
     //Create head border
     ctx.fillStyle = "#000000";
     ctx.strokeRect(xs,ys,snakeSize,snakeSize);
-  }
-    if (event.code == "ArrowRight") {
-    xs = xs + 10;
-    ctx.fillStyle = '#00FF00';
-    ctx.fillRect(xs,ys,snakeSize - 1,snakeSize - 1);
-    //Create head border
-    ctx.fillStyle = "#000000";
-    ctx.strokeRect(xs,ys,snakeSize,snakeSize);
-  }
-    if (event.code == "ArrowDown") {
-    ys = ys + 10;
-    ctx.fillStyle = '#00FF00';
-    ctx.fillRect(xs,ys,snakeSize - 1,snakeSize - 1);
-    //Create head border
-    ctx.fillStyle = "#000000";
-    ctx.strokeRect(xs,ys,snakeSize,snakeSize);
-  }
-    if (event.code == "ArrowUp") {
-    ys = ys - 10;
-    ctx.fillStyle = '#00FF00';
-    ctx.fillRect(xs,ys,snakeSize - 1,snakeSize - 1);
-    //Create head border
-    ctx.fillStyle = "#000000";
-    ctx.strokeRect(xs,ys,snakeSize,snakeSize);
-  }
-});
-
+};
+function snakeMove(event){
+    switch(event.which){
+    case 37:
+    xs = xs - snakeSize;
+    snakeAdd();
+    break;
+    case 38:
+    ys = ys - snakeSize;
+    snakeAdd();
+    break;
+    case 39:
+    xs = xs + snakeSize;
+    snakeAdd();
+    break;
+    case 40:
+    ys = ys + snakeSize;
+    snakeAdd();
+    break;
+}
+};
 </script>
 </html>
