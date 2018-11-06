@@ -1,0 +1,49 @@
+<!doctype <!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+    <div style="text-align: center;"><canvas id="myCanvas" width = "500" height = "500" style="border: 1px solid #000000;"></canvas></div>
+</body>
+<script>
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var x = 50;
+    var y = 50;
+    var xf = 400;
+    var yf = 50;
+    foodCreate();
+    function moveSnake(){        
+        ctx.clearRect(x - 10,y,10,10);
+        ctx.fillStyle = "#00ff00";
+        ctx.fillRect(x,y,10,10);
+    };
+    
+    var moveS = setInterval(()=>{
+        
+        moveSnake();
+        x = x + 10;
+        console.log(x);
+        if(x == 510){
+            alert("You Are Dead!");
+            clearInterval(moveS);
+        }
+    },50);
+
+    function foodCreate(){
+        ctx.fillStyle = "#ff3300";
+        ctx.fillRect(xf,yf,10,10)
+    };
+
+
+
+</script>
+
+</html>>
