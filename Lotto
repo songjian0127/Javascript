@@ -1,0 +1,12 @@
+/* Powerball */
+console.log('Powerball 7+1');
+for (i = 0; i < 7; i++) {
+    console.log(Math.round(Math.random() * 35));
+};
+console.log(Math.round(Math.random() * 20));
+
+/* Lotto Saturday */
+console.log('Lotto Saturday 6');
+for (i = 0; i < 6; i++) {
+    console.log(Math.round(Math.random() * 45));
+};
