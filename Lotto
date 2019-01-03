@@ -1,12 +1,58 @@
-/* Powerball */
-console.log('Powerball 7+1');
-for (i = 0; i < 7; i++) {
-    console.log(Math.round(Math.random() * 35));
-};
-console.log(Math.round(Math.random() * 20));
-
 /* Lotto Saturday */
-console.log('Lotto Saturday 6');
-for (i = 0; i < 6; i++) {
-    console.log(Math.round(Math.random() * 45));
+console.log('Lotto Saturday');
+
+var compare_duplicates_lotto = false;
+while (compare_duplicates_lotto == false) {
+    var lotto = [0];
+    for (i = 0; i < 6; i++) {
+        lotto[i] = Math.ceil(Math.random() * 45);
+    };
+    // Sort array in accending order
+    lotto.sort(function (a, b) { return a - b });
+    //console.log(lotto);
+    for (i = 0; i < 5; i++) {
+        var results = lotto[i] - lotto[i+1];
+        //console.log(results);
+        if (results == 0) {
+            compare_duplicates_lotto = false;
+            //console.log('duplicates found');
+            break;
+        }
+        else if (i == 4) {
+            compare_duplicates_lotto = true;
+            //console.log('duplicates not found');
+        }
+    }
+    //console.log(compare_duplicates_lotto);
 };
+console.log('Lotto Mains are: ' + lotto);
+
+/* Powerball */
+console.log('Powerball');
+
+var compare_duplicates = false;
+while (compare_duplicates == false) {
+    var powerball_norm = [0];
+    for (i = 0; i < 7; i++) {
+        powerball_norm[i] = Math.ceil(Math.random() * 35);
+    };
+    var powerball = Math.ceil(Math.random() * 20);
+    powerball_norm.sort(function (a, b) { return a - b });
+    //console.log(powerball_norm);
+    for (i = 0; i < 6; i++) {
+        var result = powerball_norm[i] - powerball_norm[i + 1];
+        //console.log(result);
+        if (result == 0) {
+            compare_duplicates = false;
+            //console.log('duplicates found');
+            break;
+        }
+        else if (i == 5) {
+            compare_duplicates = true;
+            //console.log('duplicates not found');
+        }
+    };
+    //console.log(compare_duplicates);
+};
+//console.log(powerball_norm);
+console.log('Mains are :' + powerball_norm + ', Powerball is ' + powerball);
